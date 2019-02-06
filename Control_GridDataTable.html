@@ -1,0 +1,210 @@
+﻿<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"> 
+<head>
+<title>ControlGrid</title>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:TemplateHidden msdt:dt="string">0</mso:TemplateHidden>
+<mso:MasterPageDescription msdt:dt="string">This is a grid.</mso:MasterPageDescription>
+<mso:ContentTypeId msdt:dt="string">0x0101002039C03B61C64EC4A04F5361F385106601</mso:ContentTypeId>
+<mso:TargetControlType msdt:dt="string">;#Content Web Parts;#</mso:TargetControlType>
+<mso:HtmlDesignAssociated msdt:dt="string">1</mso:HtmlDesignAssociated>
+<mso:HtmlDesignConversionSucceeded msdt:dt="string">True</mso:HtmlDesignConversionSucceeded>
+<mso:HtmlDesignStatusAndPreview msdt:dt="string">https://gcpat.sharepoint.com/teams/QA-Quality/_catalogs/masterpage/Control_GridDataTable.html, Conversion successful.</mso:HtmlDesignStatusAndPreview>
+<mso:_dlc_DocId msdt:dt="string">AZSAMAF3RUVJ-1539577493-2284</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">c5a0d317-6d10-4b79-9c74-79dccda8ee07</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://gcpat.sharepoint.com/teams/QA-Quality/_layouts/15/DocIdRedir.aspx?ID=AZSAMAF3RUVJ-1539577493-2284, AZSAMAF3RUVJ-1539577493-2284</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+
+<body>
+
+
+
+    <!--
+            Warning: Do not try to add HTML to this section. Only the contents of the first <div>
+            inside the <body> tag will be used while executing Display Template code. Any HTML that
+            you add to this section will NOT become part of your Display Template.
+    -->
+	<!--
+		We have removed the Jquery and DataTable JS and CSS from These files and we have added those Files in Script Editor on Search Page
+	-->
+ <!--
+        Use the div below to author your Display Template. Here are some things to keep in mind:
+        * Surround any JavaScript logic as shown below using a "pound underscore" (#_ ... _#) token
+        inside a comment.
+
+        * Use the values assigned to your variables using an "underscore pound equals"
+        (_#= ... =#_) token.
+    -->
+
+    <div id="Control_Grid">
+
+<!--#_ 
+if (!$isNull(ctx.ClientControl) &&
+    !$isNull(ctx.ClientControl.shouldRenderControl) &&
+    !ctx.ClientControl.shouldRenderControl())
+{
+    return "";
+}
+ctx.ListDataJSONGroupsKey = "ResultTables";
+var $noResults = Srch.ContentBySearch.getControlTemplateEncodedNoResultsMessage(ctx.ClientControl);
+
+var encodedId = $htmlEncode(ctx.ClientControl.get_nextUniqueId() + "_Table_");
+var headerRowId = $htmlEncode(encodedId + "_HeaderRow_");
+
+ctx.ManagedPropertyNames = [];
+ctx.OnPostRender = [];
+ctx.OnPostRender.push(function () {
+	for(var i = 0; i < ctx.ManagedPropertyNames.length; i++)
+	{
+	    $(".resultsTableHeader").append("<th>" + ctx.ManagedPropertyNames[i] + "</th>");			
+	}
+if(ctx.ManagedPropertyNames.indexOf("DocumentType") == 1 && ctx.ManagedPropertyNames.indexOf("Business") == 2 && ctx.ManagedPropertyNames.indexOf("Plant") == 3 && ctx.ManagedPropertyNames.indexOf("Region") == 4 && ctx.ManagedPropertyNames.indexOf("DocLanguage") == 5 && ctx.ManagedPropertyNames.indexOf("DocNumber") == 6 && ctx.ManagedPropertyNames.indexOf("DocumentStatus") == 7 && ctx.ManagedPropertyNames.indexOf("ISOClause") == 8 && ctx.ManagedPropertyNames.indexOf("LocationType") == 9 && ctx.ManagedPropertyNames.indexOf("ProductLine") == 10)
+{
+}
+else
+{
+
+var test =ctx.ClientControl.$8_5.split(":")
+if(ctx.ManagedPropertyNames.indexOf("Filename") == 0 && ctx.ManagedPropertyNames.length >= 1)
+{
+$(".resultsTableHeader").html("");
+}
+for(var j=2;j<test.length;j++)
+{
+$(".resultsTableHeader").append("<th>"+ test[j].split(",")[0] +"</th>");
+
+}
+
+}
+
+$("#" + encodedId).dataTable({"bPaginate": false, "bAutoWidth": true, "bSort": true});
+});
+
+var noResultsClassName = "ms-srch-result-noResults";
+
+var ListRenderRenderWrapper = function(itemRenderResult, inCtx, tpl)
+{
+    var iStr = [];
+    iStr.push(itemRenderResult);
+    return iStr.join('');
+}
+ctx['ItemRenderWrapper'] = ListRenderRenderWrapper;
+_#-->
+	<table id="_#= encodedId =#_" class="resultsTable">
+		<thead>
+			<tr id="_#= headerRowId =#_" class="resultsTableHeader">
+			</tr>
+		</thead>
+            _#= ctx.RenderGroups(ctx) =#_
+	</table>
+<!--#_
+if (ctx.ClientControl.get_shouldShowNoResultMessage())
+{
+_#-->
+        <div class="_#= noResultsClassName =#_">_#= $noResults =#_</div>
+<!--#_
+}
+_#-->
+
+<!-- Paging Display -->
+<!--#_
+ if(ctx.ClientControl.get_showPaging()){
+ var pagingInfo = ctx.ClientControl.get_pagingInfo();
+ var rowsPerPage = ctx.ClientControl.get_numberOfItems();
+ var totalRows = ctx.DataProvider.get_totalRows();
+ var currentPage = ctx.ClientControl.get_currentPageNumber();
+ var totalPages = Math.ceil(totalRows / rowsPerPage);
+ var selfLinkId = "SelfLink_";
+ var imagesUrl = GetThemedImageUrl('searchresultui.png');
+ var pl = '';
+ if(!$isEmptyArray(pagingInfo)){ 
+_#-->
+ <div class="MWS_Control_ListWithPaging_Paging_Wrapper col-xs-6 col-sm-12"> 
+ <!--#_ 
+ for (var i = 0; i < pagingInfo.length; i++) {
+ var pl = pagingInfo[i];
+ if(!$isNull(pl)) {
+ var imagesUrl = GetThemedImageUrl('searchresultui.png');
+ if(pl.startItem == -1 && currentPage != totalPages) { 
+ var selfLinkId = "SelfLink_" + pl.pageNumber;
+ _#-->
+ <div id="PagingSelf">Page _#= $htmlEncode(pl.pageNumber) =#_</div>
+ <!--#_ 
+ } else if(pl.pageNumber == -1) { 
+ var iconClass = Srch.U.isRTL() ? "ms-srch-pagingNext" : "ms-srch-pagingPrev"; 
+ _#-->
+ <div id="PagingImageLink ">
+ <a id="PageLinkPrev" href="#" class="ms-commandLink ms-promlink-button ms-promlink-button-enabled ms-verticalAlignMiddle" title="_#= $htmlEncode(pl.title) =#_" onclick="$getClientControl(this).page(_#= $htmlEncode(pl.startItem) =#_);return Srch.U.cancelEvent(event);">
+ <span class="ms-promlink-button-image">
+ <img src="_#= $urlHtmlEncode(imagesUrl) =#_" class="_#= $htmlEncode(iconClass) =#_" alt="_#= $htmlEncode(pl.title) =#_" />
+ </span>
+ </a> 
+ </div>
+ <!--#_ 
+ } else if(pl.pageNumber == -2) { 
+ var iconClass = Srch.U.isRTL() ? "ms-srch-pagingPrev" : "ms-srch-pagingNext";
+ //Do not display anything.
+ } 
+ }
+ } 
+ 
+ //Display the last page
+ if((currentPage != totalPages) && totalPages > 2) {
+ _#--> 
+ <div id="PagingLink" class="">of _#= $htmlEncode(totalPages) =#_</div> 
+ <!--#_
+ }else if(currentPage == totalPages){
+ _#--> 
+ <div id="PagingLink" class="">Page _#= $htmlEncode(totalPages) =#_ of _#= $htmlEncode(totalPages) =#_</div> 
+ <!--#_
+ } 
+ 
+ 
+ for (var i = 0; i < pagingInfo.length; i++) {
+ var pl = pagingInfo[i];
+ if(!$isNull(pl)) {
+ var imagesUrl = GetThemedImageUrl('searchresultui.png');
+ if(pl.pageNumber == -2) { 
+ var iconClass = Srch.U.isRTL() ? "ms-srch-pagingPrev" : "ms-srch-pagingNext";
+ _#-->
+ <div id="PagingImageLink">
+ <a id="PageLinkNext" href="#" class="ms-commandLink ms-promlink-button ms-promlink-button-enabled ms-verticalAlignMiddle" title="_#= $htmlEncode(pl.title) =#_" onclick="$getClientControl(this).page(_#= $htmlEncode(pl.startItem) =#_);return Srch.U.cancelEvent(event);">
+ <span class="ms-promlink-button-image">
+ <img src="_#= $urlHtmlEncode(imagesUrl) =#_" class="_#= $htmlEncode(iconClass) =#_" alt="_#= $htmlEncode(pl.title) =#_" />
+ </span>
+ </a>
+ </div>
+ <!--#_ 
+ } 
+ }
+ } 
+ _#-->
+ <!-- Total item count. -->
+<!--#_ 
+ if(ctx.ClientControl.get_showResultCount() && ctx.DataProvider.get_totalRows() > 0){ 
+ var start = ctx.DataProvider.get_currentQueryState().s;
+ var resultsPerPage = ctx.DataProvider.get_resultsPerPage();
+ var totalRows = ctx.DataProvider.get_totalRows();
+ var countDisplayString = Srch.Res.rs_ApproximateResultCount;
+ var exactCount = Srch.Res.rs_ResultCount;
+ if (start + resultsPerPage > totalRows) { countDisplayString = (totalRows == 1)? Srch.Res.rs_SingleResultCount : Srch.Res.rs_ResultCount; }
+_#-->
+ <div id="ResultCount" class="ms-srch-resultscount">
+ _#= String.format($htmlEncode(exactCount), $htmlEncode(totalRows.localeFormat("N0"))) =#_ 
+ </div>
+<!--#_ 
+ } 
+_#-->
+ </div> <!-- //Close MWS_Control_ListWithPaging_Paging_Wrapper -->
+<!--#_ 
+ } 
+ } 
+_#-->
+
+ 
+    </div>
+</body>
+</html>
